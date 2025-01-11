@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}AI_Scientia - Home{% endblock %}
+
+{% block content %}
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-4 fw-bold text-body-emphasis">Welcome to AI_Scientia</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Streamline your network management with our intelligent solution. Monitor devices, manage projects, and collaborate in real-time.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            {% if not user.is_authenticated %}
+                <a href="{% url 'accounts:signup' %}" class="btn btn-primary btn-lg px-4 gap-3">Get Started</a>
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-lg px-4">Login</a>
+            {% else %}
+                <a href="{% url 'devices:index' %}" class="btn btn-primary btn-lg px-4 gap-3">View Devices</a>
+                <a href="{% url 'projects:index' %}" class="btn btn-outline-secondary btn-lg px-4">Manage Projects</a>
+                <a href="{% url 'chat:index' %}" class="btn btn-outline-secondary btn-lg px-4">Chat</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="container px-4 py-5">
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                <i class="fas fa-server"></i>
+            </div>
+            <div>
+                <h3 class="fs-2 text-body-emphasis">Device Management</h3>
+                <p>Monitor and manage all your network devices from a single dashboard.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                <i class="fas fa-project-diagram"></i>
+            </div>
+            <div>
+                <h3 class="fs-2 text-body-emphasis">Project Tracking</h3>
+                <p>Keep your network projects organized and on schedule.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                <i class="fas fa-comments"></i>
+            </div>
+            <div>
+                <h3 class="fs-2 text-body-emphasis">Team Chat</h3>
+                <p>Collaborate with your team in real-time through our integrated chat system.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
