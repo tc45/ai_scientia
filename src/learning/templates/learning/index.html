@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}AI_Scientia - Learning{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-4 mb-4">Learning Center</h1>
+    
+    <!-- Getting Started Section -->
+    <section class="mb-5">
+        <h2 class="h3 mb-4">Getting Started</h2>
+        <div class="row">
+            {% for tutorial in getting_started %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tutorial.title }}</h5>
+                        <p class="card-text">{{ tutorial.content|truncatewords:30 }}</p>
+                        <a href="{{ tutorial.get_absolute_url }}" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <!-- Knowledge Base Section -->
+    <section class="mb-5">
+        <h2 class="h3 mb-4">Knowledge Base</h2>
+        <div class="row">
+            {% for tutorial in knowledge_base %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tutorial.title }}</h5>
+                        <p class="card-text">{{ tutorial.content|truncatewords:30 }}</p>
+                        <a href="{{ tutorial.get_absolute_url }}" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <!-- Demos Section -->
+    <section class="mb-5">
+        <h2 class="h3 mb-4">Demos</h2>
+        <div class="row">
+            {% for tutorial in demos %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tutorial.title }}</h5>
+                        <p class="card-text">{{ tutorial.content|truncatewords:30 }}</p>
+                        <a href="{{ tutorial.get_absolute_url }}" class="btn btn-primary">View Demo</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %} 

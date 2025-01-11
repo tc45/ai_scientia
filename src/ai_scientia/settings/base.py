@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     'devices',
     'chat',
     'projects',
+    'learning',
+    'blog',
 ]
 
 MIDDLEWARE = [

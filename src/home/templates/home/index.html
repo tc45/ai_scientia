@@ -6,15 +6,14 @@
 <div class="px-4 py-5 my-5 text-center">
     <h1 class="display-4 fw-bold text-body-emphasis">Welcome to AI_Scientia</h1>
     <div class="col-lg-6 mx-auto">
-        <p class="lead mb-4">Streamline your network management with our intelligent solution. Monitor devices, manage projects, and collaborate in real-time.</p>
+        <p class="lead mb-4">Your comprehensive resource for understanding and implementing Artificial Intelligence, with a special focus on Generative AI. Explore our tutorials, demonstrations, and expert insights.</p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
             {% if not user.is_authenticated %}
                 <a href="{% url 'accounts:signup' %}" class="btn btn-primary btn-lg px-4 gap-3">Get Started</a>
                 <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-lg px-4">Login</a>
             {% else %}
-                <a href="{% url 'devices:index' %}" class="btn btn-primary btn-lg px-4 gap-3">View Devices</a>
-                <a href="{% url 'projects:index' %}" class="btn btn-outline-secondary btn-lg px-4">Manage Projects</a>
-                <a href="{% url 'chat:index' %}" class="btn btn-outline-secondary btn-lg px-4">Chat</a>
+                <a href="{% url 'learning:index' %}" class="btn btn-primary btn-lg px-4 gap-3">Start Learning</a>
+                <a href="{% url 'blog:index' %}" class="btn btn-outline-secondary btn-lg px-4">Read Blog</a>
             {% endif %}
         </div>
     </div>
@@ -24,29 +23,29 @@
     <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
         <div class="col d-flex align-items-start">
             <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                <i class="fas fa-server"></i>
+                <i class="fas fa-graduation-cap"></i>
             </div>
             <div>
-                <h3 class="fs-2 text-body-emphasis">Device Management</h3>
-                <p>Monitor and manage all your network devices from a single dashboard.</p>
+                <h3 class="fs-2 text-body-emphasis">Comprehensive Learning</h3>
+                <p>From basics to advanced concepts, explore our structured learning paths in AI and Generative AI.</p>
             </div>
         </div>
         <div class="col d-flex align-items-start">
             <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                <i class="fas fa-project-diagram"></i>
+                <i class="fas fa-laptop-code"></i>
             </div>
             <div>
-                <h3 class="fs-2 text-body-emphasis">Project Tracking</h3>
-                <p>Keep your network projects organized and on schedule.</p>
+                <h3 class="fs-2 text-body-emphasis">Interactive Demos</h3>
+                <p>Experience AI in action with our hands-on demonstrations and practical examples.</p>
             </div>
         </div>
         <div class="col d-flex align-items-start">
             <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                <i class="fas fa-comments"></i>
+                <i class="fas fa-blog"></i>
             </div>
             <div>
-                <h3 class="fs-2 text-body-emphasis">Team Chat</h3>
-                <p>Collaborate with your team in real-time through our integrated chat system.</p>
+                <h3 class="fs-2 text-body-emphasis">Expert Insights</h3>
+                <p>Stay updated with the latest AI trends and developments through our regularly updated blog.</p>
             </div>
         </div>
     </div>
