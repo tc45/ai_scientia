@@ -57,17 +57,17 @@ AI_Scientia is a comprehensive learning platform focused on Artificial Intellige
 ├── README.md
 ├── requirements.txt
 ├── src
-│   ├── accounts
-│   ├── ai_scientia
-│   ├── blog
-│   ├── db.sqlite3
-│   ├── home
-│   ├── learning
-│   ├── manage.py
-│   ├── media
-│   ├── static
-│   ├── static_root
-│   └── templates
+│   ├── accounts        # Handles all user authentication and management
+│   ├── ai_scientia     # Project configuration
+│   ├── blog            # Handles all blog posts and comments
+│   ├── db.sqlite3      # SQLite database
+│   ├── home            # Home page
+│   ├── learning        # Learning center
+│   ├── manage.py       # Django management script
+│   ├── media           # Media files
+│   ├── static          # Static files
+│   ├── static_root     # Static root
+│   └── templates       # Global templates
 ```
 
 ## License
