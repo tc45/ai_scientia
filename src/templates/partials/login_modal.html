@@ -1,0 +1,32 @@
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login to AI_Scientia</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="modalLoginForm" method="post" action="{% url 'accounts:login' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="modalUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="modalUsername" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="modalPassword" name="password" required>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <a href="{% url 'accounts:signup' %}" class="text-decoration-none">Create Account</a>
+                        </div>
+                        <div>
+                            <a href="{% url 'accounts:password_reset' %}" class="text-decoration-none">Forgot Password?</a>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-secondary w-100" id="modalLoginButton" disabled>Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 
