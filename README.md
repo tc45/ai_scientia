@@ -52,7 +52,7 @@ AI_Scientia is a comprehensive learning platform focused on Artificial Intellige
    ```
 
 ## Project Structure
-
+```bash
 ai_scientia/
 └── src/
     ├── ai_scientia/      # Project configuration
@@ -63,6 +63,7 @@ ai_scientia/
     └── static/           # Static files
 requirements.txt
 README.md
+```
 
 ## License
 
