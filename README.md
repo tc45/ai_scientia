@@ -53,16 +53,21 @@ AI_Scientia is a comprehensive learning platform focused on Artificial Intellige
 
 ## Project Structure
 ```bash
-ai_scientia/
-└── src/
-    ├── ai_scientia/      # Project configuration
-    ├── learning/         # Learning app
-    ├── blog/             # Blog app
-    ├── accounts/         # User management
-    ├── templates/        # Global templates
-    └── static/           # Static files
-requirements.txt
-README.md
+.
+├── README.md
+├── requirements.txt
+├── src
+│   ├── accounts
+│   ├── ai_scientia
+│   ├── blog
+│   ├── db.sqlite3
+│   ├── home
+│   ├── learning
+│   ├── manage.py
+│   ├── media
+│   ├── static
+│   ├── static_root
+│   └── templates
 ```
 
 ## License
