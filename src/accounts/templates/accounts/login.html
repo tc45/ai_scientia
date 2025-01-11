@@ -4,7 +4,36 @@
 
 {% block content %}
 <div class="container">
-    <h1>Login</h1>
-    <p>Welcome to the login page.</p>
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">Welcome Back</h2>
+                    <p class="text-center text-muted mb-4">Please enter your credentials to access your account</p>
+                    
+                    <form id="pageLoginForm" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="pageUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="pageUsername" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pagePassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="pagePassword" name="password" required>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <a href="{% url 'accounts:signup' %}" class="text-decoration-none">Create Account</a>
+                            </div>
+                            <div>
+                                <a href="{% url 'accounts:password_reset' %}" class="text-decoration-none">Forgot Password?</a>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-secondary w-100" id="pageLoginButton" disabled>Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
