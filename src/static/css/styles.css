@@ -1,0 +1,125 @@
+.hero {
+    min-height: 600px;
+    overflow: hidden;
+}
+
+.hero-bg {
+    background: url('../images/hero-bg-2.svg') no-repeat center center;
+    background-size: cover;
+}
+
+.text-white-75 {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.floating-animation {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.bg-beginner {
+    background-color: #28a745;
+}
+
+.bg-intermediate {
+    background-color: #ffc107;
+}
+
+.bg-advanced {
+    background-color: #dc3545;
+}
+
+.filter-section {
+    position: sticky;
+    top: 20px;
+}
+
+.progress-width-0 { width: 0%; }
+.progress-width-10 { width: 10%; }
+.progress-width-20 { width: 20%; }
+.progress-width-30 { width: 30%; }
+.progress-width-40 { width: 40%; }
+.progress-width-50 { width: 50%; }
+.progress-width-60 { width: 60%; }
+.progress-width-70 { width: 70%; }
+.progress-width-80 { width: 80%; }
+.progress-width-90 { width: 90%; }
+.progress-width-100 { width: 100%; }
+
+.tutorial-card {
+    transition: transform 0.2s;
+}
+
+.tutorial-card:hover {
+    transform: translateY(-2px);
+}
+
+.gap-3 {
+    gap: 1rem;
+}
+
+.badge i {
+    font-size: 0.8em;
+}
+
+/* Featured Tutorial Cards */
+.featured-card {
+    transition: transform 0.2s;
+    border: none;
+}
+
+.featured-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.featured-img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.featured-card .badge {
+    font-size: 0.8rem;
+    padding: 0.5em 1em;
+}
+
+.featured-card .text-muted {
+    font-size: 0.9rem;
+}
+
+/* Tutorial List Cards */
+.tutorial-card {
+    transition: all 0.2s;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.tutorial-card:hover {
+    transform: translateX(5px);
+    border-left: 4px solid var(--bs-primary);
+}
+
+/* Sticky Filters */
+.sticky-top {
+    top: 2rem;
+    z-index: 1000;
+}
+
+/* Badge Styles */
+.badge {
+    padding: 0.5em 1em;
+}
+
+.badge i {
+    margin-right: 0.3em;
+} 

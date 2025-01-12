@@ -1,0 +1,35 @@
+/* Badge styling */
+.badge {
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: capitalize;
+}
+
+/* Badge colors */
+.badge.bg-beginner {
+    background-color: #28a745 !important;
+}
+
+.badge.bg-intermediate {
+    background-color: #ffc107 !important;
+    color: #000;
+}
+
+.badge.bg-advanced {
+    background-color: #dc3545 !important;
+}
+
+/* Tutorial card styling */
+.tutorial-card .card-body {
+    position: relative;
+}
+
+.tutorial-card .badge {
+    margin-top: 4px;
+    margin-right: 4px;
+}
+
+/* Featured tutorial card badge */
+.featured-card .badge {
+    margin: 0;
+} 
