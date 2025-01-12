@@ -14,9 +14,15 @@ class Post(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=[(0, "Draft"), (1, "Published")], default=0)
     likes = models.ManyToManyField(User, related_name='blog_likes', blank=True)
+    featured = models.BooleanField(default=False, help_text="Select to display this post in the featured section")
     
     class Meta:
         ordering = ['-created_on']
+        indexes = [
+            models.Index(fields=['-created_on']),
+            models.Index(fields=['status', '-created_on']),
+            models.Index(fields=['featured', '-created_on']),
+        ]
         
     def __str__(self):
         return self.title

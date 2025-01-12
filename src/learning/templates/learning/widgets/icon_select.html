@@ -1,0 +1,13 @@
+<div class="icon-select-container">
+    <select name="{{ widget.name }}" class="icon-select form-control"{% include "django/forms/widgets/attrs.html" %}>
+        {% for group_name, group_choices, group_index in widget.optgroups %}
+            {% for option in group_choices %}
+                <option value="{{ option.value }}" 
+                        {% if option.selected %}selected{% endif %}
+                        data-icon="{{ option.value }}">
+                    {{ option.label }}
+                </option>
+            {% endfor %}
+        {% endfor %}
+    </select>
+</div> 

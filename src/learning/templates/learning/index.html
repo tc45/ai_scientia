@@ -1,62 +1,156 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}AI_Scientia - Learning{% endblock %}
+{% block title %}AI Scientia - Learning Center{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h1 class="display-4 mb-4">Learning Center</h1>
-    
-    <!-- Getting Started Section -->
-    <section class="mb-5">
-        <h2 class="h3 mb-4">Getting Started</h2>
-        <div class="row">
-            {% for tutorial in getting_started %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ tutorial.title }}</h5>
-                        <p class="card-text">{{ tutorial.content|truncatewords:30 }}</p>
-                        <a href="{{ tutorial.get_absolute_url }}" class="btn btn-primary">Learn More</a>
+<div class="learning-center">
+    <!-- Hero Section -->
+    <section class="hero position-relative py-5 hero-bg">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-3 fw-bold text-white mb-4">Start Your AI Journey Today</h1>
+                    <p class="lead text-white-75 mb-5">Explore our comprehensive curriculum designed to take you from basics to advanced AI concepts.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#getting-started" class="btn btn-light btn-lg px-4">Get Started</a>
+                        <a href="#all-courses" class="btn btn-outline-light btn-lg px-4">Browse All Courses</a>
                     </div>
                 </div>
+                <div class="col-lg-6">
+                    <img src="{% static 'images/learning-hero.svg' %}" alt="Learning illustration" class="img-fluid floating-animation">
+                </div>
             </div>
-            {% endfor %}
         </div>
     </section>
-    
-    <!-- Knowledge Base Section -->
-    <section class="mb-5">
-        <h2 class="h3 mb-4">Knowledge Base</h2>
-        <div class="row">
-            {% for tutorial in knowledge_base %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ tutorial.title }}</h5>
-                        <p class="card-text">{{ tutorial.content|truncatewords:30 }}</p>
-                        <a href="{{ tutorial.get_absolute_url }}" class="btn btn-primary">Learn More</a>
+
+    <!-- Featured Tutorials Section -->
+    {% if featured_tutorials %}
+    <section class="featured-tutorials py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title mb-4">Featured Tutorials</h2>
+            <div class="row">
+                {% for tutorial in featured_tutorials %}
+                <div class="col-lg-4">
+                    <div class="card h-100 featured-card shadow">
+                        {% if tutorial.thumbnail %}
+                            <img src="{{ tutorial.thumbnail.url }}" class="card-img-top featured-img" alt="{{ tutorial.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="badge bg-{{ tutorial.difficulty_level }} px-2 py-1">
+                                    {{ tutorial.get_difficulty_level_display }}
+                                </span>
+                                <span class="text-muted">
+                                    <i class="fas fa-clock"></i> {{ tutorial.estimated_time }}
+                                </span>
+                            </div>
+                            <h3 class="card-title h4">{{ tutorial.title }}</h3>
+                            <p class="card-text">{{ tutorial.summary|truncatewords:25 }}</p>
+                            
+                            <div class="d-flex justify-content-between align-items-center text-muted small mb-3">
+                                <span>
+                                    <i class="{{ tutorial.category.icon }}"></i>
+                                    {{ tutorial.category.name }}
+                                </span>
+                                <span>
+                                    <i class="fas fa-user"></i>
+                                    {{ tutorial.author.get_full_name|default:tutorial.author.username }}
+                                </span>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <a href="{{ tutorial.get_absolute_url }}" class="btn btn-primary btn-lg w-100">
+                                    Start Learning
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </section>
-    
-    <!-- Demos Section -->
-    <section class="mb-5">
-        <h2 class="h3 mb-4">Demos</h2>
-        <div class="row">
-            {% for tutorial in demos %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ tutorial.title }}</h5>
-                        <p class="card-text">{{ tutorial.content|truncatewords:30 }}</p>
-                        <a href="{{ tutorial.get_absolute_url }}" class="btn btn-primary">View Demo</a>
+    {% endif %}
+
+    <!-- All Tutorials Section -->
+    <section class="all-tutorials py-5">
+        <div class="container">
+            <h2 class="section-title mb-4">Tutorials</h2>
+            <div class="row">
+                <!-- Filters Sidebar -->
+                <div class="col-lg-3">
+                    <div class="card sticky-top" style="top: 2rem;">
+                        <div class="card-body">
+                            <form id="filterForm" hx-get="{% url 'learning:tutorial_filter' %}" hx-target="#tutorialList">
+                                <h5 class="card-title mb-4">Filter Tutorials</h5>
+                                
+                                <!-- Search Box -->
+                                <div class="mb-4">
+                                    <label class="form-label">Search</label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="tutorialSearch" 
+                                           name="search"
+                                           placeholder="Search tutorials...">
+                                </div>
+                                
+                                <!-- Category Filter -->
+                                <div class="mb-4">
+                                    <label class="form-label">Categories</label>
+                                    {% for category in categories %}
+                                    <div class="form-check">
+                                        <input class="form-check-input filter-category" 
+                                               type="checkbox" 
+                                               name="categories[]"
+                                               value="{{ category.slug }}" 
+                                               id="category{{ category.id }}">
+                                        <label class="form-check-label" for="category{{ category.id }}">
+                                            <i class="{{ category.icon }} me-2"></i>
+                                            {{ category.name }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                
+                                <!-- Difficulty Filter -->
+                                <div class="mb-4">
+                                    <label class="form-label">Difficulty Level</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input filter-difficulty" 
+                                               type="checkbox" 
+                                               name="difficulties[]"
+                                               value="all" 
+                                               id="difficultyAll" 
+                                               checked>
+                                        <label class="form-check-label" for="difficultyAll">Show All</label>
+                                    </div>
+                                    {% for level, label in difficulty_levels %}
+                                    <div class="form-check">
+                                        <input class="form-check-input filter-difficulty" 
+                                               type="checkbox" 
+                                               name="difficulties[]"
+                                               value="{{ level }}" 
+                                               id="difficulty{{ level|title }}"
+                                               {% if difficultyAll.checked %}disabled{% endif %}>
+                                        <label class="form-check-label" for="difficulty{{ level|title }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tutorial List -->
+                <div class="col-lg-9">
+                    <div id="tutorialList">
+                        {% include "learning/partials/tutorial_list.html" %}
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
     </section>
 </div>
