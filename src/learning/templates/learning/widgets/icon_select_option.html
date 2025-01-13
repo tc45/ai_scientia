@@ -1,0 +1,10 @@
+{% load static %}
+<option value="{{ option.value|stringformat:'s' }}"
+        {% if option.selected %} selected="selected"{% endif %}
+        data-icon="{{ option.value }}"
+        {% for name, value in option.attrs.items %}
+            {% if value is not False %} {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}{% endif %}
+        {% endfor %}>
+    <i class="{{ option.value }}"></i> 
+    {{ option.label|safe }}
+</option> 

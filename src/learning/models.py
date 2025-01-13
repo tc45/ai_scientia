@@ -10,7 +10,12 @@ class Category(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     description = models.TextField()
-    icon = models.CharField(max_length=50, help_text="FontAwesome icon class", default="fas fa-book")
+    icon = models.CharField(
+        max_length=50, 
+        choices=ICON_CHOICES, 
+        help_text="FontAwesome icon class", 
+        default="fas fa-book"
+        )
     order = models.IntegerField(default=0)
     
     class Meta:

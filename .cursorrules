@@ -1,0 +1,133 @@
+# `.cursorrules` Notes for GenAI Project (Django-Based)
+
+## 1. Folder Structure and Organization
+- **Rule**: Always follow the Django app structure: `project/`, `apps/`, and reusable components.
+- **Why**: Maintaining a clean structure ensures scalability and avoids duplication of functionality.
+- Apps
+  - `src/learning/`: For training and GenAI content modules.
+  - `src/blog/`: For user authentication and management.
+  - `src/home/`: For the home page and landing page.
+  - `src/projects/`: For all global projects
+  - `src/accounts/`: For user authentication and management.
+  - `src/templates`: For all global templates
+  - `src/static`: For all global static files
+  - `src/media`: For all global media files
+  - `src/ai_scientia`: For all global settings and configurations
+  - `src/utils`: For all global utility functions
+  - `src/api`: For all global API endpoints
+
+---
+
+## 2. Naming Conventions
+- **Rule**: Use consistent, descriptive names for models, views, templates, and files.
+- **Why**: Consistent naming improves readability and discoverability.
+- **Examples**:
+  - Models: `LearningBaseEntry`, `UserProgress`, `AIIntegration`.
+  - Views: `learning_base_view`, `user_progress_view`.
+  - Templates: `learning/detail.html`.
+
+---
+
+## 3. Database Design
+- **Rule**: Normalize database tables and use meaningful relationships.
+- **Why**: Ensures clean data relationships and reduces redundancy.
+- **Example**:
+  - Tables:
+    - `KnowledgeBaseEntry` (id, title, content, created_at, updated_at).
+    - `UserProgress` (id, user_id, entry_id, progress, completed_at).
+  - Relationships: Use `ForeignKey` or `ManyToManyField` for associations.
+
+---
+
+## 4. GenAI Feature Implementation
+- **Rule**: Use modular and reusable components for GenAI integrations.
+- **Why**: Helps isolate AI-specific logic for future upgrades or changes.
+- **Example**:
+  - Create a utility file like `utils/genai.py` for interaction with GenAI APIs.
+  - Use Django signals to trigger AI-powered actions (e.g., summarization after user-uploaded content).
+
+---
+
+## 5. Front-End Integration
+- **Rule**: Separate static files (CSS/JS) and use clear folder hierarchies.
+- **Why**: Improves maintainability and ensures assets are easily managed.
+- **Example**:
+  - `static/css/`: For styling (e.g., knowledge base themes).
+  - `static/js/`: For interactive AI demos or tools.
+  - Use Django's `{% static %}` template tag for linking assets.
+
+---
+
+## 6. API Design
+- **Rule**: Use Django REST Framework (DRF) for clean and maintainable API endpoints.
+- **Why**: Facilitates integration with other tools/platforms and provides scalability.
+- **Example**:
+  - Endpoint for user progress:
+    ```json
+    GET /api/user/progress/
+    POST /api/user/progress/
+    ```
+  - Endpoint for generating AI-powered insights:
+    ```json
+    POST /api/genai/analyze/
+    ```
+
+---
+
+## 7. Testing and Quality Assurance
+- **Rule**: Write tests for each app and ensure test coverage for critical functionality.
+- **Why**: Prevents regressions and ensures the reliability of GenAI features.
+- **Example**:
+  - Unit tests for `KnowledgeBaseEntry` creation.
+  - API tests for GenAI endpoints using DRF's `APIClient`.
+
+---
+
+## 8. Code Reviews and Documentation
+- **Rule**: Document APIs, models, and workflows directly in code comments or Markdown files.  All functions should have a docstring and use code block comments where appropriate.
+- **Why**: Helps onboard collaborators and provides clarity for future updates.
+- **Example**:
+  - Use docstrings in views and utility functions:
+    ```python
+    def analyze_content(content: str) -> dict:
+        """
+        Analyze content using GenAI API.
+
+        Args:
+            content (str): The content to analyze.
+
+        Returns:
+            dict: Analysis results with key insights.
+        """
+    ```
+  - Add `README.md` with a project overview.
+
+---
+
+## 9. Security Practices
+- **Rule**: Protect sensitive data like API keys and user information.
+- **Why**: Ensures compliance and prevents breaches.
+- **Example**:
+  - Use environment variables for API keys with `python-decouple`.
+  - Set proper permissions for sensitive endpoints.
+
+---
+
+## 10. Version Control and Collaboration
+- **Rule**: Commit small, meaningful changes with descriptive messages.
+- **Why**: Simplifies code review and collaboration.
+- **Example**:
+  - Good: `Added AI summarization feature for knowledge base entries.`
+  - Bad: `Fix.`
+- Use `.cursorrules` in conjunction with Git hooks for code linting or formatting (e.g., `black`).
+
+---
+
+## 11. Performance and Scalability
+- **Rule**: Optimize queries and use caching for frequently accessed data.
+- **Why**: Improves response times for large-scale GenAI services.
+- **Example**:
+  - Use `select_related()` or `prefetch_related()` for ORM optimization.
+  - Integrate Django caching with `Memcached` or `Redis`.
+
+---

@@ -5,8 +5,27 @@ from .models import Tutorial, Category, UserProgress
 from .widgets import IconSelectWidget
 from django.utils.safestring import mark_safe
 
+
+class LearningAdminBase(admin.ModelAdmin):
+    """
+    Base admin class for learning models to centralize static files
+    """
+    class Media:
+        css = {
+            'all': (
+                'admin/css/vendor/select2/select2.min.css',
+                'admin/css/autocomplete.css',
+                'css/icon-select.css',
+            )
+        }
+        js = (
+            'admin/js/vendor/jquery/jquery.min.js',
+            'admin/js/vendor/select2/select2.full.min.js',
+            'js/icon-select.js',
+        )
+
 @admin.register(Tutorial)
-class TutorialAdmin(admin.ModelAdmin):
+class TutorialAdmin(LearningAdminBase):
     list_display = ('title', 'category', 'author', 'difficulty_level', 'is_featured', 'is_published')
     list_filter = ('is_published', 'is_featured', 'category', 'difficulty_level', 'created_on')
     search_fields = ('title', 'content', 'summary')
@@ -25,22 +44,8 @@ class TutorialAdmin(admin.ModelAdmin):
             kwargs['queryset'] = Tutorial.objects.filter(is_published=True).exclude(id=kwargs.get('obj', None).id if kwargs.get('obj') else None)
         return super().formfield_for_dbfield(db_field, **kwargs)
 
-    class Media:
-        css = {
-            'all': (
-                'admin/css/vendor/select2/select2.min.css',
-                'admin/css/autocomplete.css',
-                'css/icon-select.css',
-            )
-        }
-        js = (
-            'admin/js/vendor/jquery/jquery.min.js',
-            'admin/js/vendor/select2/select2.full.min.js',
-            'js/icon-select.js',
-        )
-
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(LearningAdminBase):
     list_display = ('icon_with_name', 'slug', 'order')
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name',)
@@ -57,23 +62,8 @@ class CategoryAdmin(admin.ModelAdmin):
             kwargs['widget'] = IconSelectWidget()
         return super().formfield_for_dbfield(db_field, **kwargs)
 
-    class Media:
-        css = {
-            'all': (
-                'admin/css/vendor/select2/select2.min.css',
-                'admin/css/autocomplete.css',
-                'css/icon-select.css',
-                'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css',
-            )
-        }
-        js = (
-            'admin/js/vendor/jquery/jquery.min.js',
-            'admin/js/vendor/select2/select2.full.min.js',
-            'js/icon-select.js',
-        )
-
 @admin.register(UserProgress)
-class UserProgressAdmin(admin.ModelAdmin):
+class UserProgressAdmin(LearningAdminBase):
     list_display = ('user', 'tutorial', 'completed', 'last_accessed')
     list_filter = ('completed', 'last_accessed')
     search_fields = ('user__username', 'tutorial__title')

@@ -11,7 +11,26 @@
 
 {% block footer %}
 {{ block.super }}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script>
+    // Prevent jQuery conflicts
+    if (window.jQuery && window.jQuery.fn.jquery !== '3.7.1') {
+        window._otherJQuery = window.jQuery;
+        window._other$ = window.$;
+    }
+</script> -->
+<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    // Debug jQuery loading
+    console.log('From base_site.html: jQuery loaded:', typeof jQuery !== 'undefined');
+</script>
 <script src="{% static 'admin/js/vendor/select2/select2.full.min.js' %}"></script>
+<script>
+    // Debug Select2 loading
+    console.log('From base_site.html: Select2 loaded:', typeof $.fn.select2 !== 'undefined');
+</script>
 <script src="{% static 'js/icon-select.js' %}"></script>
+<script>
+    // Debug Select2 loading
+    console.log('From base_site.html: icon-select.js loaded:', typeof formatIconOption !== 'undefined');
+</script> -->
 {% endblock %} 

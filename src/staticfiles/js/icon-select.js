@@ -1,30 +1,41 @@
 (function($) {
     'use strict';
     
-    window.formatIconOption = function(option) {
-        if (!option.id) return option.text;
-        return '<div class="icon-option">' +
-               '<i class="' + option.id + ' fa-fw"></i> ' +
-               '<span class="icon-text">' + option.text + '</span>' +
-               '</div>';
+    // Initialize when dependencies are ready
+    function initSelect2() {
+        if (typeof $.fn.select2 === 'undefined') {
+            setTimeout(initSelect2, 100);
+            return;
+        }
+
+        function formatOption(option) {
+            if (!option.id) return option.text;
+            
+            var iconClass = $(option.element).data('icon');
+            if (!iconClass) return option.text;
+            
+            return $('<span>')
+                .append($('<i>').addClass(iconClass))
+                .append(' ' + option.text);
+        }
+
+        $('.icon-select').each(function() {
+            $(this).select2({
+                templateResult: formatOption,
+                templateSelection: formatOption,
+                escapeMarkup: function(m) { return m; }
+            });
+        });
     }
 
-    function initIconSelect() {
-        $('.icon-select').select2({
-            templateResult: formatIconOption,
-            templateSelection: formatIconOption,
-            escapeMarkup: function(m) { return m; }
+    // Start initialization
+    if (typeof jQuery !== 'undefined') {
+        $(document).ready(initSelect2);
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof jQuery !== 'undefined') {
+                initSelect2();
+            }
         });
     }
-
-    // Handle both admin and frontend contexts
-    if (typeof django !== 'undefined' && django.jQuery) {
-        django.jQuery(document).ready(function() {
-            initIconSelect();
-        });
-    } else if (typeof $ !== 'undefined') {
-        $(document).ready(function() {
-            initIconSelect();
-        });
-    }
-})(window.django ? django.jQuery : jQuery); 
+})(django.jQuery || jQuery);
