@@ -21,6 +21,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.app_name == 'demos' %}active{% endif %}" 
+                       href="{% url 'demos:index' %}">
+                        <i class="fas fa-flask me-2"></i>Demos
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.app_name == 'blog' %}active{% endif %}" 
                        href="{% url 'blog:index' %}">
                         <i class="fas fa-blog me-2"></i>Blog

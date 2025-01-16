@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Welcome to the Editor Test Page</h1>
+<p>Select an editor to start creating content:</p>
+<ul>
+	<li><a href="{% url 'tinymce_editor' %}">TinyMCE Editor</a></li>
+	<li><a href="{% url 'ckeditor_editor' %}">CKEditor</a></li>
+</ul>
+{% endblock %} 

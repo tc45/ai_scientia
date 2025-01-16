@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} - AI Scientia{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-4">{{ category.name }}</h1>
+    <p class="lead">{{ category.description }}</p>
+    <div class="content">
+        {% for demo in demos %}
+            <h3>{{ demo.title }}</h3>
+            <p>{{ demo.summary }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

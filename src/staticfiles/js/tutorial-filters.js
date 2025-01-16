@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData();
         selectedDifficulties.forEach(d => formData.append('difficulties[]', d));
         selectedCategories.forEach(c => formData.append('categories[]', c));
-        if (searchInput.value) {
+        if (searchInput && searchInput.value) {
             formData.append('search', searchInput.value);
         }
 
@@ -29,24 +29,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Handle difficulty filters
-    difficultyAll.addEventListener('change', function() {
-        if (this.checked) {
-            difficultyFilters.forEach(cb => {
-                cb.checked = false;
-                cb.disabled = true;
-            });
-        } else {
-            difficultyFilters.forEach(cb => {
-                cb.disabled = false;
-            });
-        }
-        updateTutorials();
-    });
+    if (difficultyAll) {
+        difficultyAll.addEventListener('change', function() {
+            if (this.checked) {
+                difficultyFilters.forEach(cb => {
+                    cb.checked = false;
+                    cb.disabled = true;
+                });
+            } else {
+                difficultyFilters.forEach(cb => {
+                    cb.disabled = false;
+                });
+            }
+            updateTutorials();
+        });
+    }
 
     difficultyFilters.forEach(cb => {
         cb.addEventListener('change', function() {
             const anyDifficultySelected = Array.from(difficultyFilters).some(cb => cb.checked);
-            difficultyAll.checked = !anyDifficultySelected;
+            if (difficultyAll) {
+                difficultyAll.checked = !anyDifficultySelected;
+            }
             updateTutorials();
         });
     });
@@ -57,9 +61,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Handle search input with debounce
-    let searchTimeout;
-    searchInput.addEventListener('input', function() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(updateTutorials, 500);
-    });
+    if (searchInput) {
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(updateTutorials, 500);
+        });
+    } else {
+        console.warn('Search input element not found.');
+    }
 }); 

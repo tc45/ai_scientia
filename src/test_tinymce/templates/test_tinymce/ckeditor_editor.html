@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>CKEditor</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save Content</button>
+</form>
+
+<!-- CKEditor Script -->
+<script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<script>
+	// Initialize CKEditor on the textarea with the name 'content'
+	CKEDITOR.replace('id_content', {
+		height: 500,
+		toolbar: [
+			{ name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates'] },
+			{ name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+			{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
+			{ name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'] },
+			'/',
+			{ name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+			{ name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
+			{ name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+			{ name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+			'/',
+			{ name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+			{ name: 'colors', items: ['TextColor', 'BGColor'] },
+			{ name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+			{ name: 'about', items: ['About'] }
+		],
+		extraPlugins: 'divarea',  // Use the divarea plugin for better compatibility
+		removePlugins: 'elementspath',  // Optionally remove the elementspath plugin
+		resize_enabled: true,  // Allow resizing of the editor
+		autoGrow_minHeight: 500,
+		autoGrow_maxHeight: 800,
+		autoGrow_bottomSpace: 50,
+		removeDialogTabs: 'image:advanced;link:advanced',  // Simplify dialogs
+	});
+</script>
+{% endblock %} 

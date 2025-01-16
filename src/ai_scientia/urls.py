@@ -12,6 +12,8 @@ urlpatterns = [
     path('projects/', include('projects.urls')),
     path('learning/', include('learning.urls')),
     path('blog/', include('blog.urls')),
+    path('test_tinymce/', include('test_tinymce.urls')),
+    path('demos/', include('demos.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

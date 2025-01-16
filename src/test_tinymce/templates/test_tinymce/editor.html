@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>TinyMCE Editor</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save Content</button>
+</form>
+
+<!-- TinyMCE Script -->
+<script src="{% static 'tinymce/tinymce.min.js' %}"></script>
+<script>
+    tinymce.init({
+        selector: '.tinymce-editor',
+        height: 500,
+        menubar: true,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount',
+            'emoticons'
+        ],
+        toolbar: `
+            undo redo | formatselect | bold italic underline strikethrough |
+            forecolor backcolor | alignleft aligncenter alignright alignjustify |
+            bullist numlist outdent indent | link image media |
+            table | code | fullscreen preview | emoticons |
+            fontsizeselect fontselect | removeformat | help
+        `,
+        content_css: [
+            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+            '//www.tiny.cloud/css/codepen.min.css'
+        ],
+        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
+        image_advtab: true,
+        paste_data_images: true
+    });
+</script>
+{% endblock %}

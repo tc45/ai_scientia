@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}AI Scientia - Demos{% endblock %}
+
+{% block content %}
+<div class="demos-center">
+    <!-- Hero Section -->
+    <section class="hero position-relative py-5 hero-bg">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-3 fw-bold text-white mb-4">Explore AI Demos</h1>
+                    <p class="lead text-white-75 mb-5">This is where the demos are for different use cases. Browse through the use cases by category or use the search.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#browse-categories" class="btn btn-light btn-lg px-4">Browse by Category</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="{% static 'images/demos-hero.svg' %}" alt="Demos illustration" class="img-fluid floating-animation">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Demos Section -->
+    {% if featured_demos %}
+    <section class="featured-demos py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title mb-4">Featured Demos</h2>
+            <div class="row">
+                {% for demo in featured_demos %}
+                <div class="col-lg-4">
+                    <div class="card h-100 featured-card shadow">
+                        {% if demo.thumbnail %}
+                            <img src="{{ demo.thumbnail.url }}" class="card-img-top featured-img" alt="{{ demo.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="badge bg-{{ demo.difficulty_level }} px-2 py-1">
+                                    {{ demo.get_difficulty_level_display }}
+                                </span>
+                                <span class="text-muted">
+                                    <i class="fas fa-clock"></i> {{ demo.estimated_time }}
+                                </span>
+                            </div>
+                            <h3 class="card-title h4">{{ demo.title }}</h3>
+                            <p class="card-text">{{ demo.summary|truncatewords:25 }}</p>
+                            
+                            <div class="d-flex justify-content-between align-items-center text-muted small mb-3">
+                                <span>
+                                    <i class="{{ demo.category.icon }}"></i>
+                                    {{ demo.category.name }}
+                                </span>
+                                <span>
+                                    <i class="fas fa-user"></i>
+                                    {{ demo.author.get_full_name|default:demo.author.username }}
+                                </span>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <a href="{{ demo.get_absolute_url }}" class="btn btn-primary btn-lg w-100">
+                                    View Demo
+                                </a>
+                                {% if can_edit_demos %}
+                                <a href="{% url 'admin:demos_demo_change' demo.id %}" class="btn btn-secondary btn-lg w-100 mt-2">
+                                    Edit Demo
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- All Demos Section -->
+    <section class="all-demos py-5">
+        <div class="container">
+            <h2 class="section-title mb-4">Demos</h2>
+            <div class="row">
+                <!-- Filters Sidebar -->
+                <div class="col-lg-3">
+                    <div class="card sticky-top" style="top: 2rem;">
+                        <div class="card-body">
+                            <form id="filterForm" hx-get="{% url 'demos:demo_filter' %}" hx-target="#demoList">
+                                <h5 class="card-title mb-4">Filter Demos</h5>
+                                
+                                <!-- Search Box -->
+                                <div class="mb-4">
+                                    <label class="form-label">Search</label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="demoSearch" 
+                                           name="search"
+                                           placeholder="Search demos...">
+                                </div>
+                                
+                                <!-- Category Filter -->
+                                <div class="mb-4">
+                                    <label class="form-label">Categories</label>
+                                    {% for category in categories %}
+                                    <div class="form-check">
+                                        <input class="form-check-input filter-category" 
+                                               type="checkbox" 
+                                               name="categories[]"
+                                               value="{{ category.slug }}" 
+                                               id="category{{ category.id }}">
+                                        <label class="form-check-label" for="category{{ category.id }}">
+                                            <i class="{{ category.icon }} me-2"></i>
+                                            {{ category.name }}
+                                        </label>
+                                        {% if category.subcategories.exists %}
+                                        <button class="btn btn-link btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#subcategories{{ category.id }}" aria-expanded="false" aria-controls="subcategories{{ category.id }}">
+                                            +
+                                        </button>
+                                        <div class="collapse" id="subcategories{{ category.id }}">
+                                            {% for subcategory in category.subcategories.all %}
+                                            <div class="form-check ms-3">
+                                                <input class="form-check-input filter-category" 
+                                                       type="checkbox" 
+                                                       name="categories[]"
+                                                       value="{{ subcategory.slug }}" 
+                                                       id="subcategory{{ subcategory.id }}">
+                                                <label class="form-check-label" for="subcategory{{ subcategory.id }}">
+                                                    <i class="{{ subcategory.icon }} me-2"></i>
+                                                    {{ subcategory.name }}
+                                                </label>
+                                                {% if subcategory.children.exists %}
+                                                <button class="btn btn-link btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#children{{ subcategory.id }}" aria-expanded="false" aria-controls="children{{ subcategory.id }}">
+                                                    +
+                                                </button>
+                                                <div class="collapse" id="children{{ subcategory.id }}">
+                                                    {% for child in subcategory.children.all %}
+                                                    <div class="form-check ms-4">
+                                                        <input class="form-check-input filter-category" 
+                                                               type="checkbox" 
+                                                               name="categories[]"
+                                                               value="{{ child.slug }}" 
+                                                               id="child{{ child.id }}">
+                                                        <label class="form-check-label" for="child{{ child.id }}">
+                                                            <i class="{{ child.icon }} me-2"></i>
+                                                            {{ child.name }}
+                                                        </label>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                
+                                <!-- Difficulty Filter -->
+                                <div class="mb-4">
+                                    <label class="form-label">Difficulty Level</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input filter-difficulty" 
+                                               type="checkbox" 
+                                               name="difficulties[]"
+                                               value="all" 
+                                               id="difficultyAll" 
+                                               checked>
+                                        <label class="form-check-label" for="difficultyAll">Show All</label>
+                                    </div>
+                                    {% for level, label in difficulty_levels %}
+                                    <div class="form-check">
+                                        <input class="form-check-input filter-difficulty" 
+                                               type="checkbox" 
+                                               name="difficulties[]"
+                                               value="{{ level }}" 
+                                               id="difficulty{{ level|title }}"
+                                               {% if difficultyAll.checked %}disabled{% endif %}>
+                                        <label class="form-check-label" for="difficulty{{ level|title }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+
+                                <!-- Add Use Case Filter -->
+                                <div class="mb-4">
+                                    <label class="form-label">Use Cases</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input filter-use-case" 
+                                               type="checkbox" 
+                                               name="use_cases[]"
+                                               value="all" 
+                                               id="useCaseAll" 
+                                               checked>
+                                        <label class="form-check-label" for="useCaseAll">Show All</label>
+                                    </div>
+                                    {% for use_case, label in use_cases %}
+                                    <div class="form-check">
+                                        <input class="form-check-input filter-use-case" 
+                                               type="checkbox" 
+                                               name="use_cases[]"
+                                               value="{{ use_case }}" 
+                                               id="useCase{{ use_case|title }}"
+                                               {% if useCaseAll.checked %}disabled{% endif %}>
+                                        <label class="form-check-label" for="useCase{{ use_case|title }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demo List -->
+                <div class="col-lg-9">
+                    <div id="demoList">
+                        {% include "demos/partials/demo_list.html" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/demo-filters.js' %}"></script>
+{% endblock %}
