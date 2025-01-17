@@ -56,7 +56,17 @@ def demo_filter(request):
 	
 	# Apply category filter
 	if categories:
-		demos = demos.filter(category__slug__in=categories)
+		category_q = Q()
+		for cat in categories:
+			if '-' in cat:  # This is a subcategory
+				# Get parent category and check if it's in the filter
+				parent_slug = cat.split('-')[0]
+				if parent_slug not in categories:
+					# Only add subcategory if parent isn't selected
+					category_q |= Q(category__subcategories__slug=cat)
+			else:  # This is a parent category
+				category_q |= Q(category__slug=cat)
+		demos = demos.filter(category_q).distinct()
 	
 	# Apply search filter
 	if search:
@@ -64,19 +74,30 @@ def demo_filter(request):
 			Q(title__icontains=search) |
 			Q(summary__icontains=search) |
 			Q(content__icontains=search)
-		)
+		).distinct()
 	
+	# Apply use case filter
+	use_cases = request.GET.getlist('use_cases[]', [])
+	if use_cases and 'all' not in use_cases:
+		demos = demos.filter(use_cases__in=use_cases)
+	
+	# Annotate demos with category information
+	demos = demos.select_related('category', 'subcategory', 'author')
+
 	# Add can_edit flag for authenticated users
 	if request.user.is_authenticated:
 		for demo in demos:
 			demo.can_edit = demo.can_edit(request.user)
-	
-	use_cases = request.GET.getlist('use_cases[]', [])
-	
-	# Apply use case filter
-	if use_cases:
-		demos = demos.filter(use_cases__in=use_cases)
-	
+			
+			# If the demo's category is a subcategory, get its parent
+			if '-' in demo.category.slug:
+				parent_slug = demo.category.slug.split('-')[0]
+				try:
+					parent = DemoCategory.objects.get(slug=parent_slug)
+					demo.category.name = f"{parent.name} > {demo.category.name}"
+				except DemoCategory.DoesNotExist:
+					pass
+
 	context = {
 		'demos': demos,
 	}

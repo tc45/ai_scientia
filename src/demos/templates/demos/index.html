@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <img src="{% static 'images/demos-hero.svg' %}" alt="Demos illustration" class="img-fluid floating-animation">
+                    <img src="{% static 'images/hero-bg-2.svg' %}" alt="Demos illustration" class="img-fluid floating-animation">
                 </div>
             </div>
         </div>
@@ -80,10 +80,15 @@
     <!-- All Demos Section -->
     <section class="all-demos py-5">
         <div class="container">
-            <h2 class="section-title mb-4">Demos</h2>
+            <h2 class="section-title mb-4 d-flex justify-content-between align-items-center">
+                Demos
+                <button class="btn btn-link d-lg-none" id="toggleFilters">
+                    <i class="fas fa-filter"></i>
+                </button>
+            </h2>
             <div class="row">
                 <!-- Filters Sidebar -->
-                <div class="col-lg-3">
+                <div class="col-lg-3 d-none d-lg-block" id="filtersSidebar">
                     <div class="card sticky-top" style="top: 2rem;">
                         <div class="card-body">
                             <form id="filterForm" hx-get="{% url 'demos:demo_filter' %}" hx-target="#demoList">
@@ -97,6 +102,7 @@
                                            id="demoSearch" 
                                            name="search"
                                            placeholder="Search demos...">
+                                    <a href="#" id="clearSearch" class="text-decoration-none">Clear Search</a>
                                 </div>
                                 
                                 <!-- Category Filter -->

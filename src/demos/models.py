@@ -41,10 +41,20 @@ class DemoCategory(models.Model):
 
 class SubCategory(models.Model):
 	name = models.CharField(max_length=200)
+	slug = models.SlugField(blank=True)
 	parent_category = models.ForeignKey(DemoCategory, on_delete=models.CASCADE, related_name='subcategories')
+
+	class Meta:
+		verbose_name_plural = 'subcategories'
+		ordering = ['name']
 
 	def __str__(self):
 		return self.name
+
+	def save(self, *args, **kwargs):
+		if not self.slug:
+			self.slug = slugify(self.name)
+		super().save(*args, **kwargs)
 
 	def get_category_tree(self):
 		"""
